@@ -4,9 +4,17 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Livewire\Vote;
 
+// Route::get('/', function () {
+//     return view('livewire.rankings');
+// })->name('home');
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/vote', function(){
+    return view('vote');
+})->middleware(['auth'])
+    ->name('vote');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -20,8 +28,8 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/vote', Vote::class)->name('vote');
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/vote', Vote::class)->name('vote');
+// });
 
 require __DIR__.'/auth.php';
