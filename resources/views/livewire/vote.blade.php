@@ -50,7 +50,7 @@
                         <div class="text-base font-semibold">{{ $candidate->name }}</div>
                         <div class="text-sm text-gray-500">{{ $candidate->party }}</div>
                     </div>
-                    <img src="https://via.placeholder.com/50" class="w-12 h-12 rounded-full ml-4" />
+                    <img src="{{ asset('storage/' .$candidate->image) }}" class="w-12 h-12 rounded-full ml-4" />
                 </div>
             </label>
         @endforeach

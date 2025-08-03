@@ -34,4 +34,10 @@ class Vote extends Component
             'candidates' => Candidate::all()
         ]);
     }
+
+    public function votes()
+    {
+        return $this->hasMany(\App\Models\Vote::class);
+    }
+
 }
