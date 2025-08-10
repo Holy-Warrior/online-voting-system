@@ -14,6 +14,13 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    @unless (auth()->user()->isAdmin())
+                        <flux:navlist.item icon="check-circle" :href="route('vote')" :current="request()->routeIs('vote')" wire:navigate>{{ __('Vote') }}</flux:navlist.item>
+                    @endunless
+                    <flux:navlist.item icon="chart-bar" :href="route('results')" :current="request()->routeIs('results')" wire:navigate>{{ __('Results') }}</flux:navlist.item>
+                    @if (auth()->user()->isAdmin())
+                        <flux:navlist.item icon="cog" :href="route('admin.overview')" :current="request()->routeIs('admin.*')" wire:navigate>{{ __('Admin') }}</flux:navlist.item>
+                    @endif
                 </flux:navlist.group>
             </flux:navlist>
 

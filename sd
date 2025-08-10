@@ -1,0 +1,103 @@
+[33mcommit e08f41595ea5a6fcb821352d27f9b431d4e4192f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Mon Jul 27 15:41:00 2026 +0500
+
+    feat: Implement admin panel for managing candidates and election settings
+    
+    - Added `EnsureUserIsAdmin` middleware to restrict access to admin routes.
+    - Created `Admin\Candidates` component for adding, editing, and deleting candidates.
+    - Developed `Admin\Overview` component to display election statistics and control voting status.
+    - Introduced `Setting` model and migration for managing voting state.
+    - Updated routes to include admin functionality and ensure proper access control.
+    - Enhanced user experience with feedback messages for candidate management.
+    - Refactored voting logic to prevent double voting and ensure data integrity.
+    - Improved dashboard and voting views for better user interaction.
+    - Added necessary migrations and seeders for new database structures.
+
+[33mcommit 21b11c11cb8ce307a4fad6ebd62ae9f5db8ea898[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Sun Aug 3 14:30:00 2025 +0500
+
+    env update to production
+
+[33mcommit 4cbae8d79c6ede66d21a3cd01a1f288c4e4712bd[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Sun Aug 3 14:16:47 2025 +0500
+
+    Here's a README file
+
+[33mcommit b06024dcefbf9c95919ffb8c9cf5881e50d5e10f[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Sun Aug 3 14:11:18 2025 +0500
+
+    updating views & controllers to reflect models & migrations
+    
+    finally! everything is complete.
+    
+    i didn't update the dashboard for admins since there won't be a need in this one, but i will when needed.
+    
+    other than that, its ready for deployment as to show it works
+
+[33mcommit 905af63631507fe8e3edcbc2e41397babd69b44a[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Sun Aug 3 13:09:05 2025 +0500
+
+    refining fixes for migrations and seeders.
+    
+    setted a default profile image.
+    
+    unique entry in votes -> user.
+    
+    fixing seeders accordingly (factory included)
+
+[33mcommit 329528731b9fac151dc9de153d453fef281f600f[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Sun Aug 3 11:21:17 2025 +0500
+
+    refix - fixing migrations & models relationships
+    
+    i'm fixing the old migrations to better and optimized ones.
+    
+    The models have been reconfigured to have the $fillables prperty and the relationships.
+
+[33mcommit 1d5186eff517228d3cb8a1504ea5afb958e7af84[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Fri Aug 1 21:11:53 2025 +0500
+
+    gitignore update: remove *.sqlite
+
+[33mcommit 883b8f2868d953a38aea002fe2d2d230d0ecf404[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Fri Aug 1 20:50:20 2025 +0500
+
+    updated views
+    
+    modified existing views for welcome and dashboard
+    
+    a beutiful welcome page for candidate vote rankings
+    
+    the dashboard now opens admin panel only for admin user while voting panel for other users
+
+[33mcommit 11a43c0286107bc6ef55687420d2592e7a576b82[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Thu Jul 31 23:57:12 2025 +0500
+
+    testing db data seed
+
+[33mcommit b0a58eb02df92b26fb4c14789f977c6cf0d81fb7[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Thu Jul 31 23:49:35 2025 +0500
+
+    setup vote frontend
+
+[33mcommit 782a218b08cc874f6aaab8bbb7d2e458dc78b5df[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Thu Jul 31 23:36:00 2025 +0500
+
+    create migrations and models
+
+[33mcommit 2bf88099c57a0119f22a3b298d0303f8956b6195[m
+Author: Holy-Warrior <hamzazafarnokia@gmail.com>
+Date:   Thu Jul 31 23:32:01 2025 +0500
+
+    initialize laravel project

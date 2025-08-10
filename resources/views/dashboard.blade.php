@@ -1,45 +1,49 @@
-@if (Auth::user())
-    @if (Auth::user()->email === 'admin@admin.com')
-        <x-layouts.app :title="__('Dashboard')">
-            <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-                <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                        <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    i am here
-                    <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                        <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                        <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                    <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-                </div>
-            </div>
-        </x-layouts.app>
-    @else
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Voting Results</title>
-        @livewireStyles()
-        @livewireScripts()
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-        <style>
-            .font-pacifico {
-            font-family: 'Pacifico', cursive;
-            }
-        </style>
-        </head>
-        <body class="bg-gray-100 text-gray-800 p-6">
-            @livewire('vote')
+<x-layouts.app :title="__('Dashboard')">
+    <div class="flex h-full w-full flex-1 flex-col gap-6">
+        <div>
+            <flux:heading size="xl">Welcome, {{ auth()->user()->name }}</flux:heading>
+            <flux:subheading>
+                @if (auth()->user()->isAdmin())
+                    You're signed in as an administrator.
+                @elseif ($hasVoted)
+                    You've already cast your vote. Thanks for participating!
+                @else
+                    You haven't voted yet.
+                @endif
+            </flux:subheading>
+        </div>
 
-        </body>
-        </html>   
-    @endif
-@endif
+        <div class="grid gap-4 md:grid-cols-2">
+            @if (auth()->user()->isAdmin())
+                <div class="rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
+                    <flux:heading>Admin Panel</flux:heading>
+                    <flux:text class="mt-1 block">Manage candidates and control whether voting is open.</flux:text>
+                    <a href="{{ route('admin.overview') }}" wire:navigate
+                        class="mt-3 inline-flex items-center rounded-lg bg-zinc-800 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white">
+                        Go to Admin Panel
+                    </a>
+                </div>
+            @else
+                <div class="rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
+                    <flux:heading>{{ $hasVoted ? 'Your Vote' : 'Cast Your Vote' }}</flux:heading>
+                    <flux:text class="mt-1 block">
+                        {{ $hasVoted ? 'You can review the live results at any time.' : 'Choose your candidate. You can only vote once.' }}
+                    </flux:text>
+                    <a href="{{ route('vote') }}" wire:navigate
+                        class="mt-3 inline-flex items-center rounded-lg bg-zinc-800 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white">
+                        {{ $hasVoted ? 'View Vote Page' : 'Vote Now' }}
+                    </a>
+                </div>
+            @endif
+
+            <div class="rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
+                <flux:heading>Live Results</flux:heading>
+                <flux:text class="mt-1 block">See how the election is going right now.</flux:text>
+                <a href="{{ route('results') }}" wire:navigate
+                    class="mt-3 inline-flex items-center rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold hover:bg-zinc-50 dark:border-zinc-600 dark:hover:bg-zinc-800">
+                    View Results
+                </a>
+            </div>
+        </div>
+    </div>
+</x-layouts.app>

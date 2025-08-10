@@ -1,50 +1,53 @@
-<div>
-  <!-- Stylish Heading -->
-  <h1 class="text-5xl font-pacifico text-center text-pink-500 mb-10">
-    Voting Results
-  </h1>
+<div class="space-y-10">
+    <div class="text-center">
+        <flux:heading size="xl">Live Results</flux:heading>
+        <flux:subheading>{{ $totalVotes }} vote(s) counted so far</flux:subheading>
+    </div>
 
-  <!-- Top 3 Podium (First Place Centered) -->
-  <div class="flex justify-center items-end gap-4 mb-10">
-    @foreach ([1, 0, 2] as $order)
-      @php
-        $candidate = $topThree[$order] ?? null;
-        if (!$candidate) continue;
-        $place = [1 => '2nd Place', 0 => '1st Place', 2 => '3rd Place'][$order];
-        $colors = ['1st Place' => 'yellow-500', '2nd Place' => 'gray-400', '3rd Place' => 'orange-500'];
-        $size = $order == 0 ? 'w-36 h-36' : 'w-24 h-24';
-        $margin = $order == 1 ? 'mt-10' : ($order == 2 ? 'mt-14' : '');
-      @endphp
-      <div class="flex flex-col items-center {{ $margin }}">
-        <img src="{{ asset('storage/' .$candidate->image) }}" class="{{ $size }} rounded-full border-4 border-{{ $colors[$place] }}" />
-        <span class="mt-2 font-semibold text-lg text-{{ $colors[$place] }}">{{ $place }}</span>
-      </div>
-    @endforeach
-  </div>
-
-  <!-- Choose Your Vote Button -->
-  <div class="flex justify-center mb-10">
-    <a class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg text-lg" href="{{ route('dashboard') }}">
-      Choose Your Vote
-    </a>
-  </div>
-
-  <!-- Candidates List -->
-  <div class="max-w-4xl mx-auto space-y-4">
-    @foreach ($topThree->concat($others) as $i => $candidate)
-      <div class="flex items-center p-4 bg-white rounded-lg shadow hover:shadow-md transition
-        @if ($i == 0) border-l-4 border-yellow-500
-        @elseif ($i == 1) border-l-4 border-gray-400
-        @elseif ($i == 2) border-l-4 border-orange-400
-        @endif">
-
-        <div class="text-3xl font-bold text-gray-700 w-12">{{ $i + 1 }}</div>
-        <div class="ml-4 flex-1">
-          <div class="text-lg font-semibold">{{ $candidate->name }}</div>
-          <div class="text-sm text-gray-500">{{ $candidate->details ?? '—' }}</div>
+    @if ($topThree->isEmpty())
+        <flux:text class="text-center block">No votes yet.</flux:text>
+    @else
+        <div class="flex items-end justify-center gap-4">
+            @foreach ([1, 0, 2] as $order)
+                @php $candidate = $topThree[$order] ?? null; @endphp
+                @continue(! $candidate)
+                @php
+                    $place = [1 => '2nd', 0 => '1st', 2 => '3rd'][$order];
+                    $size = $order === 0 ? 'h-28 w-28' : 'h-20 w-20';
+                    $margin = $order === 1 ? 'mt-8' : ($order === 2 ? 'mt-12' : '');
+                @endphp
+                <div class="flex flex-col items-center {{ $margin }}">
+                    @if ($candidate->image_url)
+                        <img src="{{ $candidate->image_url }}" class="{{ $size }} rounded-full border-4 border-zinc-300 object-cover dark:border-zinc-600">
+                    @else
+                        <div class="{{ $size }} flex items-center justify-center rounded-full border-4 border-zinc-300 bg-zinc-200 font-semibold text-zinc-600 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                            {{ $candidate->initials() }}
+                        </div>
+                    @endif
+                    <span class="mt-2 text-center font-semibold">{{ $place }} &middot; {{ $candidate->name }}</span>
+                    <span class="text-sm text-zinc-500">{{ $candidate->votes_count }} vote(s)</span>
+                </div>
+            @endforeach
         </div>
-        <img src="{{ asset('storage/' .$candidate->image) }}" class="w-12 h-12 rounded-full ml-4" />
-      </div>
-    @endforeach
-  </div>
+    @endif
+
+    <div class="mx-auto max-w-2xl space-y-3">
+        @foreach ($topThree->concat($others) as $i => $candidate)
+            <div class="flex items-center gap-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
+                <div class="w-8 text-lg font-bold text-zinc-500">{{ $i + 1 }}</div>
+                @if ($candidate->image_url)
+                    <img src="{{ $candidate->image_url }}" class="h-10 w-10 rounded-full object-cover">
+                @else
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-200 text-xs font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                        {{ $candidate->initials() }}
+                    </div>
+                @endif
+                <div class="flex-1">
+                    <div class="font-semibold">{{ $candidate->name }}</div>
+                    <div class="text-sm text-zinc-500">{{ $candidate->details ?? '—' }}</div>
+                </div>
+                <div class="font-semibold">{{ $candidate->votes_count }}</div>
+            </div>
+        @endforeach
+    </div>
 </div>

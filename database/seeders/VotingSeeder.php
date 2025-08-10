@@ -7,6 +7,12 @@ use App\Models\User;
 use App\Models\Candidate;
 use App\Models\Vote;
 
+/**
+ * Optional demo/load-test data: 7 fake candidates, 100 fake users, each
+ * with a random vote already cast. Not run by default (see
+ * DatabaseSeeder) - run it explicitly if you want a populated demo:
+ *   php artisan db:seed --class=VotingSeeder
+ */
 class VotingSeeder extends Seeder
 {
     public function run(): void
