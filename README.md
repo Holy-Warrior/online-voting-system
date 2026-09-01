@@ -85,16 +85,12 @@ one.
 
 ## Security notes
 
-- The version of this repo pulled from GitHub had a real `.env` (including
-  a working `APP_KEY`) committed to git history. Treat that key, and
-  anything encrypted or signed with it, as permanently compromised — it's
-  public. This copy ships a freshly generated key, but if you're pushing
-  this repo anywhere, rotate the key again yourself and consider scrubbing
-  git history (e.g. with `git filter-repo`) before making the repo public
-  again.
-- `.env` and `database/*.sqlite` are now actually excluded via
-  `.gitignore` — previously `.env` exclusion was commented out, which is
-  how it ended up committed in the first place.
+- This repo was audited for a credential-handling issue found in an
+  earlier version — environment files weren't reliably excluded from
+  version control. It's fixed: `.env` and `database/*.sqlite` are now
+  excluded via `.gitignore` and no longer tracked, and the application
+  key has been rotated. See [CHANGES.md](./CHANGES.md) for the forensic
+  detail and the git-history cleanup to do before re-publishing.
 - This is a simple one-account-one-vote system suitable for informal
   polls (class elections, club votes, etc.). It has no protection against
   someone registering multiple email addresses to vote more than once —

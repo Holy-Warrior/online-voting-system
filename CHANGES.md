@@ -5,19 +5,30 @@ guessed at. File paths refer to the original repo.
 
 ## Security
 
-- **`.env` was committed to git** with a real, working `APP_KEY` and the
-  production URL. `.gitignore` had `# .env` — the exclusion was commented
-  out. Fixed: uncommented it, and shipped a freshly generated key. The old
-  key is still public in the repo's git history and should be treated as
-  compromised regardless of anything done locally.
+- **`.env` was committed to git** with a real, working `APP_KEY` and a
+  live production URL (`APP_URL=https://hamzabinzafar.infinityfree.me`, set
+  in the "env update to production" commit). The root `.gitignore` had
+  `# .env` — the exclusion was commented out, which is how the file ended
+  up tracked in the first place. Fixed: uncommented the `.env` rule,
+  untracked the file (`git rm --cached .env`, working copy kept locally),
+  and shipped a freshly generated `APP_KEY` with `APP_URL` reset to
+  `http://localhost`.
+
+  The old production key is still present in this repo's git history and
+  must be treated as permanently compromised — it is public — along with
+  anything encrypted or signed with it. Before re-publishing this repo:
+  rotate the key again on your own machine, and scrub the old `.env` from
+  history (e.g. with `git filter-repo`) so the public log no longer
+  contains it.
 - **"Admin" was a hardcoded email string**, not a role:
   `dashboard.blade.php` had `@if (Auth::user()->email === 'admin@admin.com')`.
   No `role` column existed on `users`, no policy, no middleware. Fixed:
   added a real `role` column (migration), `User::isAdmin()`, an
   `EnsureUserIsAdmin` middleware, and an `admin` route group.
 - **`database/database.sqlite` was committed** with ~100 fake pre-seeded
-  users and votes baked in. Removed from the repo and added to
-  `.gitignore`.
+  users and votes baked in. Untracked (`git rm --cached`); it's now
+  covered by both the root `.gitignore` (`/database/*.sqlite`) and
+  `database/.gitignore` (`*.sqlite*`), so it stays out from here on.
 
 ## Broken functionality
 
